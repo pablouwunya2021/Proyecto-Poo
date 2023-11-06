@@ -1,5 +1,5 @@
-import java.util.Scanner;
-import java.util.Random;
+import java.io.*;
+import java.util.*;
 
 public class FitCenterProgram {
     public static void main(String[] args) {
@@ -24,17 +24,55 @@ public class FitCenterProgram {
             "Corre durante 10 minutos."
         };
 
-        // Menú principal
-        while (true) {
+        // Mini menú para iniciar sesión o crear usuario
+        boolean loggedIn = false;
+        while (!loggedIn) {
             System.out.println("=====================================");
             System.out.println("Pablo's Amazing Fit Center");
             System.out.println("=====================================");
-            System.out.println("1. Registrarte");
+            System.out.println("1. Iniciar sesión");
+            System.out.println("2. Crear usuario");
+            System.out.println("3. Eliminar usuario");
+            System.out.println("0. Salir");
+            System.out.print("Selecciona una opción: ");
+            int opcion = scanner.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    loggedIn = iniciarSesion(scanner);
+                    break;
+
+                case 2:
+                    crearUsuario(scanner);
+                    break;
+
+                case 3:
+                    eliminarUsuario();
+                    break;
+                
+
+                case 0:
+                    System.out.println("Gracias por usar Pablo's Amazing Fit Center. ¡Hasta luego!");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Opción no válida. Por favor, selecciona una opción válida.");
+            }
+        }
+
+        // Resto del código después de iniciar sesión
+        while (loggedIn) {
+            System.out.println("=====================================");
+            System.out.println("Pablo's Amazing Fit Center");
+            System.out.println("=====================================");
+            System.out.println("1. Registrar datos");
             System.out.println("2. Empezar desafíos personalizados");
             System.out.println("3. Juegos");
             System.out.println("4. Retos");
             System.out.println("5. Avance");
-            System.out.println("6. Eliminar usuario");
+            System.out.println("6. Eliminar datos");
             System.out.println("0. Salir");
             System.out.print("Selecciona una opción: ");
             int opcion = scanner.nextInt();
@@ -74,43 +112,43 @@ public class FitCenterProgram {
                     break;
 
                 case 2:
-                if (nombre.isEmpty()) {
-                    System.out.println("Debes registrarte antes de empezar desafíos.");
-                } else {
-                    System.out.println("Desafíos personalizados:");
-                    System.out.println("Nombre: " + nombre);
-                    System.out.println("Categoría según IMC: " + categoria);
-                    
-                    // Mostrar rutina según la categoría del IMC
-                    if (categoria.equals("Delgadez o bajo peso")) {
-                        System.out.println("Rutina para Delgadez o bajo peso:");
-                        System.out.println("1. Realiza 20 minutos de cardio.");
-                        System.out.println("2. Haz 3 series de 15 repeticiones de sentadillas.");
-                    } else if (categoria.equals("Peso saludable")) {
-                        System.out.println("Rutina para Peso saludable:");
-                        System.out.println("1. Realiza 30 minutos de cardio.");
-                        System.out.println("2. Haz 3 series de 12 repeticiones de abdominales.");
-                    } else if (categoria.equals("Sobrepeso")) {
-                        System.out.println("Rutina para Sobrepeso:");
-                        System.out.println("1. Realiza 40 minutos de cardio.");
-                        System.out.println("2. Haz 4 series de 10 repeticiones de flexiones.");
-                    } else if (categoria.equals("Obesidad")) {
-                        System.out.println("Rutina para Obesidad:");
-                        System.out.println("1. Realiza 50 minutos de cardio.");
-                        System.out.println("2. Haz 4 series de 12 repeticiones de plancha.");
-                    }
-
-                    // Actualizar desafíos completados
-                    System.out.print("¿Has completado la rutina? (Presiona 1 para sí, 0 para no): ");
-                    int completado = scanner.nextInt();
-                    if (completado == 1) {
-                        desafiosCompletados++;
-                        puntos++; // Aumentar puntos por completar desafío
-                        System.out.println("Desafío completado. ¡Buen trabajo!");
+                    if (nombre.isEmpty()) {
+                        System.out.println("Debes registrarte antes de empezar desafíos.");
                     } else {
-                        System.out.println("Desafío no completado. ¡Sigue esforzándote!");
+                        System.out.println("Desafíos personalizados:");
+                        System.out.println("Nombre: " + nombre);
+                        System.out.println("Categoría según IMC: " + categoria);
+                        
+                        // Mostrar rutina según la categoría del IMC
+                        if (categoria.equals("Delgadez o bajo peso")) {
+                            System.out.println("Rutina para Delgadez o bajo peso:");
+                            System.out.println("1. Realiza 20 minutos de cardio.");
+                            System.out.println("2. Haz 3 series de 15 repeticiones de sentadillas.");
+                        } else if (categoria.equals("Peso saludable")) {
+                            System.out.println("Rutina para Peso saludable:");
+                            System.out.println("1. Realiza 30 minutos de cardio.");
+                            System.out.println("2. Haz 3 series de 12 repeticiones de abdominales.");
+                        } else if (categoria.equals("Sobrepeso")) {
+                            System.out.println("Rutina para Sobrepeso:");
+                            System.out.println("1. Realiza 40 minutos de cardio.");
+                            System.out.println("2. Haz 4 series de 10 repeticiones de flexiones.");
+                        } else if (categoria.equals("Obesidad")) {
+                            System.out.println("Rutina para Obesidad:");
+                            System.out.println("1. Realiza 50 minutos de cardio.");
+                            System.out.println("2. Haz 4 series de 12 repeticiones de plancha.");
+                        }
+
+                        // Actualizar desafíos completados
+                        System.out.print("¿Has completado la rutina? (Presiona 1 para sí, 0 para no): ");
+                        int completado = scanner.nextInt();
+                        if (completado == 1) {
+                            desafiosCompletados++;
+                            puntos++; // Aumentar puntos por completar desafío
+                            System.out.println("Desafío completado. ¡Buen trabajo!");
+                        } else {
+                            System.out.println("Desafío no completado. ¡Sigue esforzándote!");
+                        }
                     }
-                }
                     break;
 
                 case 3:
@@ -197,6 +235,96 @@ public class FitCenterProgram {
                 default:
                     System.out.println("Opción no válida. Por favor, selecciona una opción válida.");
             }
+        }
+    }
+
+    // Función para iniciar sesión
+    private static boolean iniciarSesion(Scanner scanner) {
+        System.out.println("Iniciar Sesión:");
+        scanner.nextLine(); // Limpia el buffer
+        System.out.print("Usuario: ");
+        String usuario = scanner.nextLine();
+        System.out.print("Contraseña: ");
+        String contraseña = scanner.nextLine();
+
+        // Verificar las credenciales en el archivo CSV
+        if (verificarCredenciales(usuario, contraseña)) {
+            System.out.println("Inicio de sesión exitoso. ¡Bienvenido, " + usuario + "!");
+            return true;
+        } else {
+            System.out.println("Usuario o contraseña incorrectos. Inténtalo de nuevo.");
+            return false;
+        }
+    }
+
+    // Función para verificar las credenciales en el archivo CSV
+    private static boolean verificarCredenciales(String usuario, String contraseña) {
+        try (BufferedReader br = new BufferedReader(new FileReader("Contrasena.csv"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 2 && parts[0].equals(usuario) && parts[1].equals(contraseña)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Función para crear un usuario y contraseña y guardarlos en el archivo CSV
+    // Función para eliminar un usuario del archivo CSV
+private static void eliminarUsuario() {
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Eliminar Usuario:");
+    System.out.print("Usuario a eliminar: ");
+    String usuarioAEliminar = scanner.nextLine();
+    
+    List<String> lines = new ArrayList<>();
+    try (BufferedReader br = new BufferedReader(new FileReader("Contrasena.csv"))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split(",");
+            if (parts.length == 2 && parts[0].equals(usuarioAEliminar)) {
+                System.out.println("Usuario eliminado: " + usuarioAEliminar);
+            } else {
+                lines.add(line);
+            }
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("Contrasena.csv"))) {
+        for (String line : lines) {
+            bw.write(line);
+            bw.newLine();
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+    private static void crearUsuario(Scanner scanner) {
+        System.out.println("Crear Usuario:");
+        scanner.nextLine(); // Limpia el buffer
+        System.out.print("Usuario: ");
+        String usuario = scanner.nextLine();
+        System.out.print("Contraseña: ");
+        String contraseña = scanner.nextLine();
+
+        // Guardar el usuario y contraseña en el archivo CSV
+        try (FileWriter writer = new FileWriter("Contrasena.csv", true)) {
+            writer.append(usuario);
+            writer.append(",");
+            writer.append(contraseña);
+            writer.append("\n");
+            writer.close();
+            System.out.println("Usuario creado exitosamente.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al crear el usuario.");
         }
     }
 }
