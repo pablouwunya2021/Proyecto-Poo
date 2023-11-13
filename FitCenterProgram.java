@@ -49,7 +49,6 @@ public class FitCenterProgram {
                 case 3:
                     eliminarUsuario();
                     break;
-                
 
                 case 0:
                     System.out.println("Gracias por usar Pablo's Amazing Fit Center. ¡Hasta luego!");
@@ -118,25 +117,8 @@ public class FitCenterProgram {
                         System.out.println("Desafíos personalizados:");
                         System.out.println("Nombre: " + nombre);
                         System.out.println("Categoría según IMC: " + categoria);
-                        
-                        // Mostrar rutina según la categoría del IMC
-                        if (categoria.equals("Delgadez o bajo peso")) {
-                            System.out.println("Rutina para Delgadez o bajo peso:");
-                            System.out.println("1. Realiza 20 minutos de cardio.");
-                            System.out.println("2. Haz 3 series de 15 repeticiones de sentadillas.");
-                        } else if (categoria.equals("Peso saludable")) {
-                            System.out.println("Rutina para Peso saludable:");
-                            System.out.println("1. Realiza 30 minutos de cardio.");
-                            System.out.println("2. Haz 3 series de 12 repeticiones de abdominales.");
-                        } else if (categoria.equals("Sobrepeso")) {
-                            System.out.println("Rutina para Sobrepeso:");
-                            System.out.println("1. Realiza 40 minutos de cardio.");
-                            System.out.println("2. Haz 4 series de 10 repeticiones de flexiones.");
-                        } else if (categoria.equals("Obesidad")) {
-                            System.out.println("Rutina para Obesidad:");
-                            System.out.println("1. Realiza 50 minutos de cardio.");
-                            System.out.println("2. Haz 4 series de 12 repeticiones de plancha.");
-                        }
+
+                        imprimirRutinaDesdeCSV(categoria);
 
                         // Actualizar desafíos completados
                         System.out.print("¿Has completado la rutina? (Presiona 1 para sí, 0 para no): ");
@@ -152,58 +134,63 @@ public class FitCenterProgram {
                     break;
 
                 case 3:
-                    if (nombre.isEmpty()) {
-                        System.out.println("Debes registrarte antes de jugar.");
-                    } else {
-                        System.out.println("Juegos - Retos de Ejercicio:");
+                if (nombre.isEmpty()) {
+                    System.out.println("Debes registrarte antes de jugar.");
+                } else {
+                    System.out.println("Juegos - Retos de Ejercicio:");
 
-                        // Variables para controlar el juego
-                        int retosCompletadosCategoria = 0;
-                        int retosTotales = 4; // Cambia este valor si deseas más retos
+                    // Variables para controlar el juego
+                    int retosCompletadosCategoria = 0;
+                    int retosTotales = 4; // Cambia este valor si deseas más retos
 
-                        // Implementación de retos de ejercicio aleatorios
-                        while (retosCompletadosCategoria < retosTotales) {
-                            System.out.println("Reto de ejercicio " + (retosCompletadosCategoria + 1) + ":");
-                            String rutinaAleatoria = rutinas[random.nextInt(rutinas.length)];
-                            System.out.println(rutinaAleatoria);
-                            System.out.print("Presiona 1 para completar el reto o 2 para dejarlo a medias: ");
-                            int eleccion = scanner.nextInt();
+                    // Implementación de retos de ejercicio aleatorios
+                    while (retosCompletadosCategoria < retosTotales) {
+                        System.out.println("Reto de ejercicio " + (retosCompletadosCategoria + 1) + ":");
 
-                            if (eleccion == 1) {
-                                retosCompletadosCategoria++;
-                                puntos++; // Aumentar puntos por completar el reto
-                                System.out.println("Reto completado. ¡Excelente!");
-                            } else if (eleccion == 2) {
-                                System.out.println("Reto dejado a medias.");
-                                break; // Salir del juego si se deja un reto a medias
-                            } else {
-                                System.out.println("Opción no válida. Presiona 1 para completar el reto o 2 para dejarlo a medias.");
-                            }
-                        }
+                        // Obtener reto aleatorio desde "Retos.csv"
+                        String retoAleatorio = obtenerDesafioDesdeCSV("Retos.csv");
+                        System.out.println(retoAleatorio);
 
-                        System.out.println("Juego terminado. Has completado " + retosCompletadosCategoria + " retos.");
-                    }
-                    break;
+                        System.out.print("Presiona 1 para completar el reto o 2 para dejarlo a medias: ");
+                        int eleccion = scanner.nextInt();
 
-                case 4:
-                    if (nombre.isEmpty()) {
-                        System.out.println("Debes registrarte antes de participar en retos.");
-                    } else {
-                        System.out.println("Reto de ejercicio:");
-                        String rutinaAleatoria = rutinas[random.nextInt(rutinas.length)];
-                        System.out.println(rutinaAleatoria);
-
-                        // Implementación de un desafío de ejercicio
-                        System.out.print("¿Has completado el reto? (Presiona 1 para sí, 0 para no): ");
-                        int completado = scanner.nextInt();
-                        if (completado == 1) {
-                            retosCompletados++;
+                        if (eleccion == 1) {
+                            retosCompletadosCategoria++;
                             puntos++; // Aumentar puntos por completar el reto
                             System.out.println("Reto completado. ¡Excelente!");
+                        } else if (eleccion == 2) {
+                            System.out.println("Reto dejado a medias.");
+                            break; // Salir del juego si se deja un reto a medias
                         } else {
-                            System.out.println("Reto no completado. ¡Sigue intentándolo!");
+                            System.out.println("Opción no válida. Presiona 1 para completar el reto o 2 para dejarlo a medias.");
                         }
                     }
+
+                    System.out.println("Juego terminado. Has completado " + retosCompletadosCategoria + " retos.");
+                }
+                break;
+
+                case 4:
+                if (nombre.isEmpty()) {
+                    System.out.println("Debes registrarte antes de participar en retos.");
+                } else {
+                    System.out.println("Reto de ejercicio:");
+
+                    // Obtener reto aleatorio desde "Retos.csv"
+                    String retoAleatorio = obtenerDesafioDesdeCSV("Retos.csv");
+                    System.out.println(retoAleatorio);
+
+                    // Implementación de un desafío de ejercicio
+                    System.out.print("¿Has completado el reto? (Presiona 1 para sí, 0 para no): ");
+                    int completado = scanner.nextInt();
+                    if (completado == 1) {
+                        retosCompletados++;
+                        puntos++; // Aumentar puntos por completar el reto
+                        System.out.println("Reto completado. ¡Excelente!");
+                    } else {
+                        System.out.println("Reto no completado. ¡Sigue intentándolo!");
+                    }
+                }
                     break;
 
                 case 5:
@@ -256,6 +243,26 @@ public class FitCenterProgram {
             return false;
         }
     }
+    // Función para obtener desafíos desde el archivo CSV
+    private static String obtenerDesafioDesdeCSV(String archivoCSV) {
+        List<String> desafios = obtenerDesafiosDesdeCSV(archivoCSV);
+        Random random = new Random();
+        return desafios.get(random.nextInt(desafios.size()));
+    }
+
+    // Función para obtener desafíos desde el archivo CSV
+    private static List<String> obtenerDesafiosDesdeCSV(String archivoCSV) {
+        List<String> desafios = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoCSV))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                desafios.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return desafios;
+    }
 
     // Función para verificar las credenciales en el archivo CSV
     private static boolean verificarCredenciales(String usuario, String contraseña) {
@@ -274,38 +281,6 @@ public class FitCenterProgram {
     }
 
     // Función para crear un usuario y contraseña y guardarlos en el archivo CSV
-    // Función para eliminar un usuario del archivo CSV
-private static void eliminarUsuario() {
-    Scanner scanner = new Scanner(System.in);
-    System.out.println("Eliminar Usuario:");
-    System.out.print("Usuario a eliminar: ");
-    String usuarioAEliminar = scanner.nextLine();
-    
-    List<String> lines = new ArrayList<>();
-    try (BufferedReader br = new BufferedReader(new FileReader("Contrasena.csv"))) {
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] parts = line.split(",");
-            if (parts.length == 2 && parts[0].equals(usuarioAEliminar)) {
-                System.out.println("Usuario eliminado: " + usuarioAEliminar);
-            } else {
-                lines.add(line);
-            }
-        }
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter("Contrasena.csv"))) {
-        for (String line : lines) {
-            bw.write(line);
-            bw.newLine();
-        }
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
-
     private static void crearUsuario(Scanner scanner) {
         System.out.println("Crear Usuario:");
         scanner.nextLine(); // Limpia el buffer
@@ -325,6 +300,101 @@ private static void eliminarUsuario() {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error al crear el usuario.");
+        }
+    }
+
+    // Función para eliminar un usuario del archivo CSV
+    private static void eliminarUsuario() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Eliminar Usuario:");
+        System.out.print("Usuario a eliminar: ");
+        String usuarioAEliminar = scanner.nextLine();
+
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("Contrasena.csv"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 2 && parts[0].equals(usuarioAEliminar)) {
+                    System.out.println("Usuario eliminado: " + usuarioAEliminar);
+                } else {
+                    lines.add(line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("Contrasena.csv"))) {
+            for (String line : lines) {
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Función para imprimir rutina desde el archivo CSV según la categoría
+    private static void imprimirRutinaDesdeCSV(String categoria) {
+        String rutinaCSV = categoria + ".csv";
+        List<String> rutinas = obtenerRutinasDesdeCSV(rutinaCSV);
+
+        if (!rutinas.isEmpty()) {
+            String ultimaRutinaMostrada = obtenerUltimaRutinaMostrada(categoria);
+            String nuevaRutina = obtenerNuevaRutina(rutinas, ultimaRutinaMostrada);
+
+            System.out.println(nuevaRutina);
+
+            guardarUltimaRutinaMostrada(categoria, nuevaRutina);
+        } else {
+            System.out.println("No hay rutinas disponibles en el archivo CSV.");
+        }
+    }
+
+    // Función para obtener rutinas desde el archivo CSV
+    private static List<String> obtenerRutinasDesdeCSV(String rutinaCSV) {
+        List<String> rutinas = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(rutinaCSV))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                rutinas.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return rutinas;
+    }
+
+    // Función para obtener la última rutina mostrada
+    private static String obtenerUltimaRutinaMostrada(String categoria) {
+        String archivoUltimaRutina = categoria + "_ultima_rutina.txt";
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoUltimaRutina))) {
+            String ultimaRutina = br.readLine();
+            return (ultimaRutina != null) ? ultimaRutina : "";
+        } catch (IOException e) {
+            return "";
+        }
+    }
+
+    // Función para obtener una nueva rutina no mostrada previamente
+    private static String obtenerNuevaRutina(List<String> rutinas, String ultimaRutinaMostrada) {
+        for (String rutina : rutinas) {
+            if (!rutina.equals(ultimaRutinaMostrada)) {
+                return rutina;
+            }
+        }
+        // Si se han mostrado todas las rutinas, reiniciar desde la primera
+        return rutinas.get(0);
+    }
+
+    // Función para guardar la última rutina mostrada
+    private static void guardarUltimaRutinaMostrada(String categoria, String nuevaRutina) {
+        String archivoUltimaRutina = categoria + "_ultima_rutina.txt";
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoUltimaRutina))) {
+            bw.write(nuevaRutina);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
